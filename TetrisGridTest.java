@@ -16,7 +16,7 @@ public class TetrisGridTest {
 			{true, true, false, },
 			{false, true, true, }
 		};
-		
+		//bla
 		boolean[][] after =
 		{	
 			{true, false, false},
