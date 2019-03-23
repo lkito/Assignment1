@@ -35,7 +35,7 @@ public class AppearancesTest {
 	public void testSameCount3() {
 		List<String> a = stringToList("12345678910");
 		List<String> b = stringToList("11121314151617181920");
-		assertEquals(7, Appearances.sameCount(a, b));
+		assertEquals(8, Appearances.sameCount(a, b));
 	}
 
 	@Test

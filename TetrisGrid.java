@@ -20,12 +20,25 @@ public class TetrisGrid {
 			}
 		}
 	}
-	
-	
+
+
 	/**
-	 * Does row-clearing on the grid (see handout).
+	 * Clears passed amount of columns on top of grid
 	 */
-	public void clearRows() {
+	private void clearTop(int columns){
+		for(int i = grid[0].length - columns; i < grid[0].length; i++) {
+			for (int j = 0; j < grid.length; j++) {
+				grid[j][i] = false;
+			}
+		}
+	}
+
+
+	/**
+	 * Clears full columns, shifts columns back
+	 * and returns amount of cleared columns
+	 */
+	private int shiftAndCount(){
 		int cleared = 0;
 		boolean isFull;
 		for(int j = 0; j < grid[0].length; j++){
@@ -45,11 +58,15 @@ public class TetrisGrid {
 				}
 			}
 		}
-		for(int i = grid[0].length - cleared; i < grid[0].length; i++) {
-			for (int j = 0; j < grid.length; j++) {
-				grid[j][i] = false;
-			}
-		}
+		return cleared;
+	}
+	
+	/**
+	 * Does row-clearing on the grid (see handout).
+	 */
+	public void clearRows() {
+		int cleared = shiftAndCount();
+		clearTop(cleared);
 	}
 	
 	/**

@@ -38,23 +38,36 @@ public class CharGrid {
 		return (maxRow - minRow + 1) * (maxCol - minCol + 1);
 	}
 
+
+
+	//Checks if there is a cross of length 1 around passed coordinates
+	private boolean checkForCross(int row, int col, char curChar, int deviation){
+		return (grid[row][col - deviation + 1] == curChar &&
+				grid[row][col + deviation - 1] == curChar &&
+				grid[row - deviation + 1][col] == curChar &&
+				grid[row + deviation - 1][col] == curChar);
+	}
+
+	//Checks if there is at least one 'curChar' around the coordinates
+	private boolean containsChar(int row, int col, char curChar, int deviation){
+		return (grid[row][col - deviation + 1] == curChar ||
+				grid[row][col + deviation - 1] == curChar ||
+				grid[row - deviation + 1][col] == curChar ||
+				grid[row + deviation - 1][col] == curChar);
+	}
+
 	//Checks if there is a "+" on the passed point
 	private boolean checkSinglePoint(int row, int col, char ch){
 		int curDeviation  = 2;
 		boolean leftBoundCheck, rightBoundCheck, upBoundCheck, downBoundCheck;
-		boolean leftCharCheck, rightCharCheck, upCharCheck, downCharCheck;
 		while(true){
 			upBoundCheck = (row - curDeviation < 0);
 			downBoundCheck = (row + curDeviation == grid.length);
 			rightBoundCheck = (col + curDeviation == grid[0].length);
 			leftBoundCheck = (col - curDeviation < 0);
 
-			upCharCheck = grid[row - curDeviation + 1][col] != ch;
-			downCharCheck = grid[row + curDeviation - 1][col] != ch;
-			rightCharCheck = grid[row][col + curDeviation - 1] != ch;
-			leftCharCheck = grid[row][col - curDeviation + 1] != ch;
-			if(leftCharCheck || rightCharCheck || upCharCheck || downCharCheck) {
-				return (leftCharCheck && rightCharCheck && upCharCheck && downCharCheck);
+			if(!checkForCross(row, col, ch, curDeviation)) {
+				return (!containsChar(row, col, ch, curDeviation));
 			} else if(leftBoundCheck || rightBoundCheck || upBoundCheck || downBoundCheck){
 				return ((leftBoundCheck || grid[row][col - curDeviation] != ch)
 						&& (rightBoundCheck || grid[row][col + curDeviation] != ch)
@@ -75,9 +88,8 @@ public class CharGrid {
 		for(int row = 1; row < grid.length - 1; row++){
 			for(int col = 1; col < grid[0].length - 1; col++){
 				curChar = grid[row][col];
-				if(grid[row][col + 1] == curChar && grid[row][col - 1] == curChar
-						&& grid[row + 1][col] == curChar && grid[row - 1][col] == curChar
-						&& checkSinglePoint(row, col, curChar)) result++;
+				if(checkForCross(row, col, curChar, 0) &&
+						checkSinglePoint(row, col, curChar)) result++;
 			}
 		}
 		return result;
