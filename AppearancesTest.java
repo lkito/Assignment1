@@ -83,6 +83,6 @@ public class AppearancesTest {
 		List<Integer> b = Arrays.asList(1, 12, 3, 2, 6, 10, 3, 5);
 		Set<Integer> testSet = new HashSet<>(b);
 
-		assertEquals(2, Appearances.sameCount(set, testSet));
+		assertEquals(4, Appearances.sameCount(set, testSet));
 	}
 }
